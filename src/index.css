@@ -1,0 +1,84 @@
+body {
+  font: 14px Roboto, sans-serif;
+  margin: auto;
+}
+
+ol, ul {
+  padding-left: 30px;
+}
+
+.board-row {
+  text-align: center;
+  margin: auto;
+}
+
+.selected-row .piece {
+  text-align: center;
+  margin: auto;
+  border: 2px solid yellow;
+}
+
+.status {
+  margin-bottom: 10px;
+}
+
+#root {
+  margin: auto;
+  width: 50%;
+  text-align: center;
+  padding: 40px;
+}
+
+.piece {
+  background: #84aff5;
+  border: 1px solid black;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: 2px;
+  padding: 30px;
+  text-align: center;
+  width: 34px;
+}
+
+.piece:focus {
+  outline: none;
+}
+
+p {
+  font-size: 20px;
+}
+
+.centerDiv {
+  padding-top: 50px;
+}
+
+.inbold {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+button:hover {
+  background: #3374de;
+}
+
+.links {
+  padding-left: 50px;
+  padding-right: 50px;
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+}
+
+.links:hover {
+  text-decoration: underline;
+}
+
+.game {
+  text-align: center;
+  padding: 40px 0;
+  font-size: 30px;
+  font-weight: bold;
+}
