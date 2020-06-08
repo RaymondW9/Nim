@@ -1,3 +1,4 @@
+  
 import React from 'react';
 import {
   BrowserRouter as Router,
@@ -69,6 +70,9 @@ class Game extends React.Component {
     super(props);
     this.rows = props.rows;
     this.sum = 0;
+    this.p1 = props.p1;
+    this.p2 = props.p2;
+    this.bot = props.bot;
     const initial = [];
     var i;
     for (i = 0; i < props.rows; i++) {
@@ -105,7 +109,9 @@ class Game extends React.Component {
         p1Turn: !this.state.p1Turn,
         selectedRow: -1
       });
-      this.AImove();
+      if (this. bot) {
+        this.AImove();
+      }
     }
   }
 
@@ -203,15 +209,15 @@ class Game extends React.Component {
   }
 
   render() {
-    var text = "O's Turn";
+    var text = this.p2 + "'s Turn";
     if (this.state.p1Turn) {
-      text = "X's Turn";
+      text = this.p1 + "'s Turn";
     }
     if (this.sum == 0) {
       if (this.state.p1Turn) {
-        text = "X has won!";
+        text = this.p1 + " has won!";
       } else {
-        text = "O has won!";
+        text = this.p2 + " has won!";
       }
     }
     return (
@@ -262,11 +268,27 @@ export default function App() {
 }
 
 function Settings() {
-  var url = window.location.pathname;
   return (
     <div className="centerDiv">
       <h2>Welcome!</h2>
-      <p>{url}</p>
+      <h3>Please select your settings:</h3>
+      <form action="/play" method="get">
+        <label htmlFor="p1name">Player 1</label>
+        <br></br>
+        <input type="text" id="p1" name="p1name" placeholder="Enter your name (optional)"></input>
+        <br></br><br></br>
+        <label htmlFor="p2name">Player 2</label>
+        <br></br>
+        <input type="text" id="p2" name="p2name" placeholder="Enter your name (optional)"></input>
+        <br></br><br></br>
+        <label htmlFor="rows">Rows (default is 6):</label>
+        <input type="number" id="rows" name="rows" min="3" max="10" placeholder="3 - 10"></input>
+        <br></br><br></br>
+        <input type="radio" id="bot" name="bot"></input>
+        <label htmlFor="bot">Play Against A Bot</label>
+        <br></br><br></br>
+        <input type="submit" value="Submit"></input>
+      </form>
     </div>
   );
 }
@@ -284,9 +306,40 @@ function Rules() {
 }
 
 function Play() {
-  var num = 8;
-  return <Game
-    rows = {num - 1}
+  var url = window.location.href;
+  var bot = false;
+  var num = 6;
+  var p1 = "Player 1"
+  var p2 = "Player 2"
+  var i;
+  var url1 = url.split("play?");
+  var urlcomp = '';
+  try {
+    if (url1.length != 1) {
+      urlcomp = url1[1].split("=");
+      if (urlcomp[1].length > 7) {
+        p1 = urlcomp[1].split("&p2name")[0]
+      }
+      if (urlcomp[2].length > 5) {
+        p2 = urlcomp[2].split("&rows")[0]
+      }
+      for (var i = 3; i <= 10; i++) {
+        if (url1[1].includes(i)) {
+          num = i;
+        }
+      }
+    }
+  }
+  catch(err) {}
+  if (url.includes("bot=on")) {
+    bot = true;
+    p2 = "Bot";
+  }
+  return <Game 
+    rows = {num + 1}
+    p1 = {p1}
+    p2 = {p2}
+    bot = {bot}
   />;
 }
 
